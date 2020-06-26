@@ -50,7 +50,9 @@ server <- function(input,output)
   
   output$table <- renderDataTable(selected_gene())
   
-  box<-eventReactive(input$plot ,{renderPlot
+  box<-eventReactive(input$plot , 
+  {
+    renderPlot
     (
       { dat1<-as.matrix(selected_gene())
         dat1<-t(dat1)
