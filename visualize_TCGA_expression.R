@@ -5,9 +5,9 @@ library(ggplot2)
 library(ggfortify)
 # Load data
 data <- read.csv("TCGA_gene_expression_data.csv",header = TRUE)
-genes<- data[,1]
+genes <- data[,1]
 rownames(data)<-genes
-data <-data[,-1]
+data <- data[,-1]
 
 # Define UI
 ui <- fluidPage(theme = "lumen" ,
@@ -19,7 +19,7 @@ ui <- fluidPage(theme = "lumen" ,
                                        
                                        selectInput(inputId = "genename" ,
                                                    label = "select a gene" ,
-                                                   choices =rownames(data) ,
+                                                   choices = rownames(data) ,
                                                    selected = "A1BG") ,
                                        
                                        actionButton(inputId = "update" ,
@@ -38,19 +38,19 @@ ui <- fluidPage(theme = "lumen" ,
 
 #Define server
 
-server <- function(input,output)
+server <- function(input, output)
 {
   #subset data
   
   selected_gene <- eventReactive(input$update ,
                                 {
-                                  data %>% filter(rownames(data)== paste0(input$genename , collapse = "")) 
+                                  data %>% filter(rownames(data) == paste0(input$genename , collapse = "")) 
                                 }
   )
   
   output$table <- renderDataTable(selected_gene())
   
-  box<-eventReactive(input$plot , 
+  box <- eventReactive(input$plot , 
   {
     renderPlot
     (
@@ -66,7 +66,7 @@ server <- function(input,output)
     
   })
   
-  output$boxp<-renderPlot(box())
+  output$boxp <- renderPlot(box())
   
 }
 shinyApp(ui = ui, server =  server)
